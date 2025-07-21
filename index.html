@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Letter to Denise</title>
+    <meta name="description" content="A heartfelt monthsary letter to Denise, beautifully styled and revealed on click.">
+
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffebee;
-            background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 0C2.686 0 0 2.686 0 5s2.686 5 5 5 5-2.686 5-5-2.686-5-5-5zm0 8.5c-1.93 0-3.5-1.57-3.5-3.5S3.07 1.5 5 1.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z' fill='%23fce4ec' fill-opacity='0.5'/%3E%3Cpath d='M5 1.5c-1.93 0-3.5 1.57-3.5 3.5S3.07 8.5 5 8.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5z' fill='%23f8bbd0' fill-opacity='0.2'/%3E%3C/svg%3E");
-            background-size: 80px 80px;
+            background: linear-gradient(135deg, #ffebee, #e1bee7);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -20,25 +24,30 @@
             padding: 20px;
             box-sizing: border-box;
         }
+
         .letter-container {
-            background-color: #ffffff; 
+            background-color: #ffffff;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             border-radius: 16px;
             padding: 40px;
             max-width: 800px;
             width: 100%;
-            line-height: 1.8; /* Increased line height for readability */
-            color: #333; /* Darker text color */
+            line-height: 1.8;
+            color: #333;
             position: relative;
             overflow: hidden;
+
+            /* Hidden by default with fade-in transition */
             display: none;
-            opacity: 0; /* For fade-in effect */
-            transition: opacity 0.5s ease-in-out; /* Smooth transition */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
+
         .letter-container.show {
             display: block;
-            opacity: 1; /* Fade in */
+            opacity: 1;
         }
+
         .letter-container::before {
             content: '';
             position: absolute;
@@ -50,45 +59,47 @@
             border-radius: 16px;
             z-index: 0;
         }
+
         .letter-content {
             position: relative;
             z-index: 1;
         }
+
         .reveal-button {
-            /* Button styling */
-            background-color: #e91e63; /* Pink */
-            /* Pink/red gradient */
             background-image: linear-gradient(to right, #e91e63 0%, #ff4081 51%, #e91e63 100%);
-            margin-bottom: 20px; /* Space between button and letter */
+            background-size: 200% auto;
+            margin-bottom: 20px;
             padding: 15px 30px;
             border: none;
-            border-radius: 12px; /* Rounded corners */
+            border-radius: 12px;
             color: white;
-            font-size: 1.25rem; /* Larger font size */
+            font-size: 1.25rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
-            transition: all 0.3s ease; /* Smooth transitions for hover effects */
-            background-size: 200% auto; /* For gradient animation */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
+
         .reveal-button:hover {
-            background-position: right center; /* Move gradient on hover */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Slightly larger shadow on hover */
-            transform: translateY(-2px); /* Slight lift effect */
+            background-position: right center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
         }
+
         .reveal-button:active {
-            transform: translateY(0); /* Press effect */
+            transform: translateY(0);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
     <!-- Button to reveal the letter -->
-    <button id="revealLetterBtn" class="reveal-button">
+    <button id="revealLetterBtn" class="reveal-button" aria-expanded="false" aria-controls="letterContainer">
         Click to Read the Letter
     </button>
 
-    <div id="letterContainer" class="letter-container">
+    <!-- Hidden letter container -->
+    <div id="letterContainer" class="letter-container" role="region" aria-label="Love Letter">
         <div class="letter-content text-lg md:text-xl leading-relaxed">
             <p class="mb-6">Dearest Denise,</p>
             <p class="mb-6">
@@ -109,15 +120,13 @@
     </div>
 
     <script>
-        // Get the button and the letter container elements
         const revealBtn = document.getElementById('revealLetterBtn');
         const letterContainer = document.getElementById('letterContainer');
 
-        // Add a click event listener to the button
         revealBtn.addEventListener('click', () => {
-            // Add the 'show' class to make the letter visible and trigger fade-in
-            letterContainer.classList.add('show')
+            letterContainer.classList.add('show');
             revealBtn.style.display = 'none';
+            revealBtn.setAttribute('aria-expanded', 'true');
         });
     </script>
 </body>
