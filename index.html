@@ -3,135 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Can I Court You? ❤️</title>
+    <title>A Letter to Denise</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Custom font for a more personal touch */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
-            overflow: hidden;
-            margin: 0;
-            height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: #ffebee; /* Light pink background */
+            /* Subtle heart pattern background */
+            background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 0C2.686 0 0 2.686 0 5s2.686 5 5 5 5-2.686 5-5-2.686-5-5-5zm0 8.5c-1.93 0-3.5-1.57-3.5-3.5S3.07 1.5 5 1.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z' fill='%23fce4ec' fill-opacity='0.5'/%3E%3Cpath d='M5 1.5c-1.93 0-3.5 1.57-3.5 3.5S3.07 8.5 5 8.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5z' fill='%23f8bbd0' fill-opacity='0.2'/%3E%3C/svg%3E");
+            background-size: 80px 80px; /* Size of the repeating pattern */
             display: flex;
-            align-items: center;
+            flex-direction: column; /* Arrange items vertically */
             justify-content: center;
-            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
         }
-
-        h1, p {
-            color: black; /* Text color is black */
+        .letter-container {
+            background-color: #ffffff; /* White background for the letter */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            border-radius: 16px; /* Rounded corners */
+            padding: 40px;
+            max-width: 800px; /* Max width for readability */
+            width: 100%;
+            line-height: 1.8; /* Increased line height for readability */
+            color: #333; /* Darker text color */
+            position: relative;
+            overflow: hidden;
+            /* Initially hidden */
+            display: none;
+            opacity: 0; /* For fade-in effect */
+            transition: opacity 0.5s ease-in-out; /* Smooth transition */
         }
-
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-            display: inline-block;
+        .letter-container.show {
+            display: block;
+            opacity: 1; /* Fade in */
         }
-
-        .buttons {
-            margin-top: 20px;
+        .letter-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Pink/purple gradient overlay */
+            background: linear-gradient(135deg, #f8bbd040, #e1bee740);
+            border-radius: 16px;
+            z-index: 0;
         }
-
-        button {
-            font-size: 18px;
-            padding: 12px 20px;
+        .letter-content {
+            position: relative;
+            z-index: 1;
+        }
+        .reveal-button {
+            /* Button styling */
+            background-color: #e91e63; /* Pink */
+            /* Pink/red gradient */
+            background-image: linear-gradient(to right, #e91e63 0%, #ff4081 51%, #e91e63 100%);
+            margin-bottom: 20px; /* Space between button and letter */
+            padding: 15px 30px;
             border: none;
+            border-radius: 12px; /* Rounded corners */
+            color: white;
+            font-size: 1.25rem; /* Larger font size */
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 8px;
-            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            transition: all 0.3s ease; /* Smooth transitions for hover effects */
+            background-size: 200% auto; /* For gradient animation */
         }
-
-        .yes {
-            background-color: #ff4d79;
-            color: white;
-            font-weight: bold;
-            transition: 0.3s ease-in-out;
+        .reveal-button:hover {
+            background-position: right center; /* Move gradient on hover */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Slightly larger shadow on hover */
+            transform: translateY(-2px); /* Slight lift effect */
         }
-
-        .yes:hover {
-            background-color: #ff1a4d;
-        }
-
-        .no {
-            background-color: #999;
-            color: white;
-            font-weight: bold;
-            position: absolute;
-        }
-
-        /* Floating hearts */
-        .heart {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 30px;
-            animation: floatUp 5s infinite;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh);
-                opacity: 0;
-            }
+        .reveal-button:active {
+            transform: translateY(0); /* Press effect */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
-    <script>
-        let yesButtonSize = 18; // Initial font size
-
-        function sayYes() {
-            document.body.innerHTML = `
-                <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
-                    <h1>Yay! ❤️</h1>
-                    <p>You just made me the happiest person alive! 😍</p>
-                    <p>Can't wait to start this journey with you! 💕</p>
-                </div>
-            `;
-        }
-
-        function moveNoButton() {
-            let btn = document.getElementById("noButton");
-            let x = Math.random() * (window.innerWidth - 100);
-            let y = Math.random() * (window.innerHeight - 50);
-            btn.style.left = x + "px";
-            btn.style.top = y + "px";
-
-            // Increase the "Yes" button size
-            let yesButton = document.getElementById("yesButton");
-            yesButtonSize += 5; // Increase size
-            yesButton.style.fontSize = yesButtonSize + "px";
-            yesButton.style.padding = (yesButtonSize / 2) + "px " + (yesButtonSize) + "px";
-        }
-
-        function createHearts() {
-            setInterval(() => {
-                let heart = document.createElement("div");
-                heart.classList.add("heart");
-                heart.innerHTML = "❤️";
-                heart.style.left = Math.random() * 100 + "vw";
-                heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 5000);
-            }, 300);
-        }
-
-        window.onload = createHearts;
-    </script>
 </head>
 <body>
+    <!-- Button to reveal the letter -->
+    <button id="revealLetterBtn" class="reveal-button">
+        Click to Read the Letter
+    </button>
 
-    <div class="container">
-        <h1>Can I court you? ❤️</h1>
-        <p>I've been waiting to ask you this... Will you give me the chance to prove my love? 💕</p>
-        <div class="buttons">
-            <button class="yes" id="yesButton" onclick="sayYes()">Yes 💖</button>
-            <button class="no" id="noButton" onmouseover="moveNoButton()">No 😢</button>
+    <div id="letterContainer" class="letter-container">
+        <div class="letter-content text-lg md:text-xl leading-relaxed">
+            <p class="mb-6">Dearest Denise,</p>
+            <p class="mb-6">
+                I'm writing this letter under the pretense of doing research, HAHAHAHAH. I'm not sure if you'll believe me, but I hope so! So, what did you think of my little surprise in the PPT? Did you enjoy it? I really hope you did, but if not, that's okay, haha.
+            </p>
+            <p class="mb-6">
+                Now, back to business. I'm writing to wish you a Happy Monthsary! It's crazy to think that we've been bickering, teasing, loving, and laughing together for five months. It's hard to believe how fast time has flown. I'm still processing the idea that I have someone like you in my life, so please bear with me if I seem distant sometimes. I promise I'm trying my very best to be a good partner for you. If I ever fall short, please just tell me. I am all ears. What don't you like about my actions? I'll try to change, though I can't promise it will happen immediately. But I am willing to change, as long as it's for you.
+            </p>
+            <p class="mb-6">
+                These past five months have felt like a roller coaster. There have been happy days and days filled with arguments and tears, but we've always made it through. We have each other. I know we're going somewhere on this journey because we never leave each other behind. And if a day comes when one of us gets left behind, I hope we never choose to continue without the other, because I swear to God, I can't handle it. It might sound dramatic, but I'm serious. I can't imagine a morning where you aren't here. So, no matter what, I hope we keep choosing each other. I am ready to give and give for you because you are worthy of it. Even if you say you aren't, I already promised that to the Lord a long time ago. BLEEEEEEEEEEHHH HAHAHAHAHAHAH.
+            </p>
+            <p class="mb-8">
+                I love you, baby! I have so much more I want to say, but the words are jumbling in my head. When it comes to you, I always seem to run out of words—but in a good way. It's just that for me, there are no exact words to describe how happy I am to have you in my life or how much I love you. Or maybe it's just because you're so much better at writing letters… I love you, my baby, my bebu, my babu, my lalove, my boss madame, to infinity and beyond.
+            </p>
+            <p class="text-right mt-8">Yours truly,</p>
+            <p class="text-right font-semibold">Jazmine</p>
         </div>
     </div>
 
+    <script>
+        // Get the button and the letter container elements
+        const revealBtn = document.getElementById('revealLetterBtn');
+        const letterContainer = document.getElementById('letterContainer');
+
+        // Add a click event listener to the button
+        revealBtn.addEventListener('click', () => {
+            // Add the 'show' class to make the letter visible and trigger fade-in
+            letterContainer.classList.add('show');
+            // Optionally hide the button after the letter is revealed
+            revealBtn.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
