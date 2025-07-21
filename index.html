@@ -3,51 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Letter to Denise</title>
-    <meta name="description" content="A heartfelt monthsary letter to Denise, beautifully styled and revealed on click.">
-
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <title>A Special Letter for Denise</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
+        /* Cartoony font */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #ffebee, #e1bee7);
+            font-family: 'Fredoka', sans-serif; /* Applied cartoony font */
+            background-color: #fce4ec; /* Brighter, playful pink background */
+            /* More vibrant heart pattern background using SVG data URI */
+            background-image: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0 0 15 15' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.5 0C4.027 0 1.25 2.777 1.25 6.25S4.027 12.5 7.5 12.5s6.25-2.777 6.25-6.25S10.973 0 7.5 0zm0 10.625c-2.39 0-4.375-1.985-4.375-4.375S5.11 1.875 7.5 1.875s4.375 1.985 4.375 4.375-1.985 4.375-4.375 4.375z' fill='%23f8bbd0' fill-opacity='0.7'/%3E%3Cpath d='M7.5 1.875c-2.39 0-4.375 1.985-4.375 4.375S5.11 10.625 7.5 10.625s4.375-1.985 4.375-4.375-1.985-4.375-4.375-4.375z' fill='%23e91e63' fill-opacity='0.3'/%3E%3C/svg%3E");
+            background-size: 100px 100px; /* Larger heart pattern */
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Arrange items vertically for button and letter */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
+            overflow: hidden; /* Hide overflowing hearts */
+            position: relative; /* For heart positioning */
         }
-
         .letter-container {
-            background-color: #ffffff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 800px;
+            background-color: #ffffff; /* White background for the letter */
+            /* More pronounced, slightly playful shadow */
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3), 0 5px 15px rgba(255, 105, 180, 0.2);
+            border-radius: 25px; /* More rounded corners */
+            padding: 45px; /* Increased padding */
+            max-width: 850px; /* Slightly wider */
             width: 100%;
             line-height: 1.8;
-            color: #333;
+            color: #4a004a; /* Darker purple text for contrast */
             position: relative;
-            overflow: hidden;
-
-            /* Hidden by default with fade-in transition */
-            display: none;
+            /* Changed overflow-y to auto to allow scrolling */
+            overflow-y: auto;
+            max-height: 80vh; /* Set a max height to enable scrolling for long content */
+            border: 3px solid #ff80ab; /* Thicker, vibrant pink border */
+            z-index: 10; /* Ensure letter is above hearts */
+            transform: rotate(-2deg); /* Slightly more pronounced rotation */
+            transition: transform 0.3s ease-in-out, opacity 0.7s ease-in-out; /* Added opacity transition */
+            /* Initially hidden */
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            display: none; /* Hide initially */
         }
-
         .letter-container.show {
-            display: block;
             opacity: 1;
+            display: block; /* Show when 'show' class is added */
         }
-
+        .letter-container:hover {
+            transform: rotate(0deg) scale(1.01); /* Straighten and slightly enlarge on hover */
+        }
         .letter-container::before {
             content: '';
             position: absolute;
@@ -55,55 +61,118 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #f8bbd040, #e1bee740);
-            border-radius: 16px;
+            /* Vibrant pink/purple gradient overlay */
+            background: linear-gradient(135deg, #e0b0ff40, #ffc0cb40);
+            border-radius: 25px;
             z-index: 0;
         }
-
         .letter-content {
             position: relative;
             z-index: 1;
+            font-size: 1.25rem; /* Larger base font size for cartoony feel */
+            line-height: 1.8; /* Generous line height */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+        .letter-content p {
+            margin-bottom: 1.5rem; /* More space between paragraphs */
+        }
+        .letter-content .text-right {
+            font-size: 1.35rem; /* Larger signature */
+            font-weight: 700; /* Bolder signature */
+            color: #8e24aa; /* Darker purple for signature */
         }
 
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .letter-container {
+                padding: 20px;
+                border-radius: 15px;
+                max-height: 70vh; /* Adjust max-height for smaller screens */
+            }
+            .letter-content {
+                font-size: 1.1rem;
+            }
+            .letter-content .text-right {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Heart styling for cartoony look */
+        .heart {
+            position: absolute;
+            font-size: 30px; /* Larger default heart size */
+            color: #ff4081; /* Bright pink */
+            pointer-events: none; /* Allow clicks to pass through */
+            opacity: 0; /* Start hidden */
+            animation: floatUp 6s ease-out forwards, wobble 2s infinite alternate; /* Added wobble animation */
+            z-index: 1; /* Below the letter container */
+            text-shadow: 0 0 8px rgba(255, 64, 129, 0.7); /* More prominent glow */
+        }
+
+        /* Keyframe animation for floating */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(var(--x-offset)) scale(1.5); /* Larger scale at end */
+                opacity: 0;
+            }
+        }
+
+        /* Keyframe animation for wobble */
+        @keyframes wobble {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* Button styling */
         .reveal-button {
-            background-image: linear-gradient(to right, #e91e63 0%, #ff4081 51%, #e91e63 100%);
-            background-size: 200% auto;
-            margin-bottom: 20px;
-            padding: 15px 30px;
+            background-image: linear-gradient(to right, #ff4081 0%, #ff80ab 51%, #ff4081 100%); /* Bright pink gradient */
+            margin-bottom: 30px; /* Space between button and letter */
+            padding: 18px 40px; /* Larger padding */
             border: none;
-            border-radius: 12px;
+            border-radius: 50px; /* Pill shape */
             color: white;
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.5rem; /* Large font size */
+            font-weight: 700; /* Bolder text */
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 64, 129, 0.4); /* Stronger shadow */
+            transition: all 0.3s ease; /* Smooth transitions */
+            background-size: 200% auto; /* For gradient animation */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 1px; /* Spaced out letters */
+            outline: none; /* Remove outline on focus */
         }
-
         .reveal-button:hover {
-            background-position: right center;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            transform: translateY(-2px);
+            background-position: right center; /* Move gradient on hover */
+            box-shadow: 0 12px 25px rgba(255, 64, 129, 0.5); /* Larger shadow on hover */
+            transform: translateY(-5px) scale(1.02); /* Lift and slightly enlarge effect */
         }
-
         .reveal-button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(0) scale(0.98); /* Press effect */
+            box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3);
         }
     </style>
 </head>
 <body>
     <!-- Button to reveal the letter -->
-    <button id="revealLetterBtn" class="reveal-button" aria-expanded="false" aria-controls="letterContainer">
-        Click to Read the Letter
+    <button id="revealLetterBtn" class="reveal-button">
+        Open My Heart
     </button>
 
-    <!-- Hidden letter container -->
-    <div id="letterContainer" class="letter-container" role="region" aria-label="Love Letter">
-        <div class="letter-content text-lg md:text-xl leading-relaxed">
+    <div id="letterContainer" class="letter-container">
+        <div class="letter-content">
             <p class="mb-6">Dearest Denise,</p>
             <p class="mb-6">
-                I'm writing this letter under the pretense of doing research, HAHAHAHAH. I'm not sure if you'll believe me, but I hope so! So, what did you think of my little surprise in the PPT? Did you enjoy it? I really hope you did, but if not, that's okay, haha.
+                I'm writing this letter under the pretense of doing research, HAHAHAH. I'm not sure if you'll believe me, but I hope so! So, what did you think of my little surprise in the PPT? Did you enjoy it? I really hope you did, but if not, that's okay, haha.
             </p>
             <p class="mb-6">
                 Now, back to business. I'm writing to wish you a Happy Monthsary! It's crazy to think that we've been bickering, teasing, loving, and laughing together for five months. It's hard to believe how fast time has flown. I'm still processing the idea that I have someone like you in my life, so please bear with me if I seem distant sometimes. I promise I'm trying my very best to be a good partner for you. If I ever fall short, please just tell me. I am all ears. What don't you like about my actions? I'll try to change, though I can't promise it will happen immediately. But I am willing to change, as long as it's for you.
@@ -120,14 +189,51 @@
     </div>
 
     <script>
+        // Get the button and the letter container elements
         const revealBtn = document.getElementById('revealLetterBtn');
         const letterContainer = document.getElementById('letterContainer');
 
+        // Add a click event listener to the button
         revealBtn.addEventListener('click', () => {
+            // Add the 'show' class to make the letter visible and trigger fade-in
             letterContainer.classList.add('show');
+            // Optionally hide the button after the letter is revealed
             revealBtn.style.display = 'none';
-            revealBtn.setAttribute('aria-expanded', 'true');
         });
+
+        // Function to create and animate a single heart
+        function createHeart() {
+            const heart = document.createElement('span');
+            heart.classList.add('heart');
+            heart.innerHTML = '&#x2764;'; // Unicode heart symbol
+
+            // Random starting position at the bottom of the screen
+            const startX = Math.random() * window.innerWidth;
+            heart.style.left = `${startX}px`;
+            heart.style.bottom = '-30px'; // Start slightly below the viewport
+
+            // Random size for variety
+            const size = Math.random() * 25 + 20; // Between 20px and 45px
+            heart.style.fontSize = `${size}px`;
+
+            // Random animation duration for variety
+            const duration = Math.random() * 3 + 5; // Between 5s and 8s
+            heart.style.animationDuration = `${duration}s`;
+
+            // Random horizontal offset for the floatUp animation
+            const xOffset = (Math.random() - 0.5) * 300; // -150px to +150px
+            heart.style.setProperty('--x-offset', `${xOffset}px`);
+
+            document.body.appendChild(heart);
+
+            // Remove heart after animation completes to prevent DOM clutter
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        // Generate hearts at a regular interval
+        setInterval(createHeart, 200); // Create a new heart every 200 milliseconds for more hearts
     </script>
 </body>
 </html>
